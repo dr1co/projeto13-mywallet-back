@@ -2,7 +2,7 @@ import joi from 'joi';
 
 const userSchema = joi.object({
     name: joi.string().required(),
-    password: joi.string().required
+    password: joi.string().required()
 });
 
 async function validateUser(req, res, next) {
