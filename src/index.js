@@ -9,6 +9,5 @@ const PORT = process.env.PORT;
 server.use([cors(), express.json()]);
 
 server.listen(PORT, () => {
-    console.log(`Servidor funcionando na porta ${PORT}
-Hello, World!`);
+    console.log(`Servidor funcionando na porta ${PORT}.`);
 });
