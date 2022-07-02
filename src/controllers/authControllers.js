@@ -21,7 +21,7 @@ export async function signUp (req, res) {
     });
 
     try {
-        const user = await db.collection("users").findOne({ name: newUser.name });
+        const user = await db.collection("users").findOne({ email: newUser.email });
         await db.collection("sessions").insertOne({
             userId: user._id,
             token

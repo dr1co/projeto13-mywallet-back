@@ -10,7 +10,8 @@ mongoClient.connect().then(() => {
 });
 
 export async function getTransactions(req, res) {
-    const transactions = await db.collection("transactions").find().toArray();
+    const session = res.locals.session;
+    const transactions = await db.collection("transactions").find({ userId: session.userId }).toArray();
 
     try {
         res.status(200).send(transactions);
