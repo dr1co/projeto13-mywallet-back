@@ -10,9 +10,7 @@ async function validateUser(req, res, next) {
 
     const validation = userSchema.validate(request);
 
-    if (validation.error) {
-        return res.sendStatus(401);
-    }
+    if (validation.error) return res.sendStatus(401);
     
     res.locals.request = request;
 

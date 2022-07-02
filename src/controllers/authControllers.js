@@ -4,14 +4,14 @@ import { MongoClient, ObjectId } from 'mongodb';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const mongoClient = new MongoClient(process.env.MONGOURL)
+const mongoClient = new MongoClient(process.env.MONGOURL);
 let db;
 mongoClient.connect().then(() => {
     db = mongoClient.db(process.env.DATABASE);
 });
 
 export async function signUp (req, res) {
-    const newUser = res.locals.signUp
+    const newUser = res.locals.signUp;
     const encripted = bcrypt.hashSync(newUser.password, 10);
     const token = uuid();
     await db.collection("users").insertOne({

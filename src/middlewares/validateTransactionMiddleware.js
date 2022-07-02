@@ -3,18 +3,18 @@ import joi from 'joi';
 const transactionSchema = joi.object({
     date: joi.string().required(),
     name: joi.string().required(),
-    value: joi.number().required(),
+    value: joi.string().required(),
     type: joi.string().valid("entrance", "exit")
 });
 
 async function validateTransaction(req, res, next) {
-    const transaction = req.body;
+    const newTransaction = req.body;
 
-    const validation = transactionSchema.validate(transaction);
+    const validation = transactionSchema.validate(newTransaction);
 
-    if (validation.error) {
-        res.sendStatus(422)
-    }
+    if (validation.error) return res.sendStatus(422)
+
+    res.locals.transaction = newTransaction;
 
     next();
 }

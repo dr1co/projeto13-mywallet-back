@@ -10,9 +10,8 @@ async function validateSignUp(req, res, next) {
     const signUp = req.body;
     const validation = signUpSchema.validate(signUp);
 
-    if (validation.error) {
-        return res.sendStatus(422);
-    }
+    if (validation.error) return res.sendStatus(422);
+    
     res.locals.signUp = signUp;
 
     next();
