@@ -39,18 +39,27 @@ export async function signUp (req, res) {
     }
 }
 
-export async function signIn (req, res) {
+export async function authIn (req, res) {
     const session = res.locals.session;
 
+    const user = await db.collection("users").findOne({ _id: new ObjectId(session.userId) });
+
+    if (!user) return res.sendStatus(404);
+
     try {
-        const user = await db.collection("users").findOne({ _id: new ObjectId(session.userId)});
+        const newToken = uuid();
+        await db.collection("sessions").deleteOne({ token: session.token });
+        await db.collection("sessions").insertOne({
+            userId: session.userId,
+            token: newToken
+        });
 
         res.status(200).send({
             _id: user._id,
             name: user.name,
             email: user.email,
             password: user.password,
-            token: session.token
+            token: newToken
         });
     } catch (error) {
         res.sendStatus(500);

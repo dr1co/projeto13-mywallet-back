@@ -6,13 +6,15 @@ const userSchema = joi.object({
 });
 
 async function validateUser(req, res, next) {
-    const user = req.body
+    const request = req.body
 
-    const validation = userSchema.validate(user);
+    const validation = userSchema.validate(request);
 
     if (validation.error) {
         return res.sendStatus(401);
     }
+    
+    res.locals.request = request;
 
     next();
 }
