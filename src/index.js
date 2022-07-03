@@ -7,7 +7,8 @@ import transactionsRouter from './routes/transactionsRoutes.js';
 const server = express();
 const PORT = process.env.PORT;
 
-server.use([cors(), express.json()]);
+server.use(cors());
+server.use(express.json());
 
 server.use(authRouter);
 server.use(usersRouter);
