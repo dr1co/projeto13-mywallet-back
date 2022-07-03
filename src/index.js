@@ -7,7 +7,12 @@ import transactionsRouter from './routes/transactionsRoutes.js';
 const server = express();
 const PORT = process.env.PORT;
 
-server.use(cors());
+server.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Origin", "GET,PUT,POST,DELETE");
+    server.use(cors());
+    next();
+});
 server.use(express.json());
 
 server.use(authRouter);
