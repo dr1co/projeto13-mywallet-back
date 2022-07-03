@@ -11,10 +11,23 @@ mongoClient.connect().then(() => {
 
 export async function getTransactions(req, res) {
     const session = res.locals.session;
-    const transactions = await db.collection("transactions").find({ userId: session.userId }).toArray();
 
     try {
+        const transactions = await db.collection("transactions").find({ userId: session.userId }).toArray();
+        
         res.status(200).send(transactions);
+    } catch (error) {
+        res.sendStatus(500);
+    }
+}
+
+export async function getTransactionById(req, res) {
+    const id = req.params.transactionId;
+
+    try {
+        const transaction = await db.collection("transactions").findOne({ _id: new ObjectId(id) });
+
+        res.status(200).send(transaction);
     } catch (error) {
         res.sendStatus(500);
     }
@@ -24,15 +37,15 @@ export async function addTransaction(req, res) {
     const session = res.locals.session;
     const newTransaction = res.locals.transaction;
 
-    await db.collection("transactions").insertOne({
-        userId: session.userId,
-        date: newTransaction.date,
-        name: newTransaction.name,
-        value: newTransaction.value,
-        type: newTransaction.type
-    });
-
     try {
+        await db.collection("transactions").insertOne({
+            userId: session.userId,
+            date: newTransaction.date,
+            name: newTransaction.name,
+            value: newTransaction.value,
+            type: newTransaction.type
+        });
+
         res.sendStatus(200);
     } catch (error) {
         res.sendStatus(500);
@@ -68,9 +81,9 @@ export async function editTransaction(req, res) {
 export async function deleteTransaction(req, res) {
     const id = req.params.transactionId;
 
-    await db.collection("transactions").deleteOne({ _id: new ObjectId(id)});
-
     try {
+        await db.collection("transactions").deleteOne({ _id: new ObjectId(id)});
+
         res.sendStatus(200);
     } catch {
         res.sendStatus(500);
