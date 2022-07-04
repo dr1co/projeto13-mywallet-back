@@ -1,5 +1,5 @@
 import express from 'express';
-import { getTransactions, addTransaction, editTransaction, deleteTransaction } from '../controllers/transactionsControllers.js';
+import { getTransactions, getTransactionById, addTransaction, editTransaction, deleteTransaction } from '../controllers/transactionsControllers.js';
 import validateTransaction from '../middlewares/validateTransactionMiddleware.js';
 import validateToken from '../middlewares/validateTokenMiddleware.js';
 
