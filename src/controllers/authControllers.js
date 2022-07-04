@@ -13,27 +13,14 @@ mongoClient.connect().then(() => {
 export async function signUp (req, res) {
     const newUser = res.locals.signUp;
     const encripted = bcrypt.hashSync(newUser.password, 10);
-    const token = uuid();
-    await db.collection("users").insertOne({
-        name: newUser.name,
-        email: newUser.email,
-        password: encripted,
-    });
 
     try {
-        const user = await db.collection("users").findOne({ email: newUser.email });
-        await db.collection("sessions").insertOne({
-            userId: user._id,
-            token
+        await db.collection("users").insertOne({
+            name: newUser.name,
+            email: newUser.email,
+            password: encripted,
         });
-
-        res.status(201).send({
-            _id: user.id,
-            name: user.name,
-            email: user.email,
-            password: user.password,
-            token
-        })
+        res.sendStatus(201)
     } catch (error) {
         res.sendStatus(500);
     }

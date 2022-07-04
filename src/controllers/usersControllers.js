@@ -14,7 +14,7 @@ mongoClient.connect().then(() => {
 export async function signIn(req, res) {
     const request = res.locals.request;
 
-    const user = await db.collection("users").findOne({ name: request.name });
+    const user = await db.collection("users").findOne({ email: request.email });
 
     if(!user) return res.sendStatus(404);
 
